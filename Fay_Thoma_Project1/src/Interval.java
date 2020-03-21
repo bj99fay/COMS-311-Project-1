@@ -1,16 +1,28 @@
 
 public class Interval {
-	int low, high;
+	private int low, high;
 	
+	/**
+	 * @param low
+	 * 		the lower bound of the interval
+	 * @param high 
+	 * 		the upper bound of the interval
+	 */
 	public Interval(int low, int high) {
 		this.low = low;
 		this.high = high;
 	}
 	
+	/**
+	 * @return the lower bound of the interval
+	 */
 	int getLow() {
 		return low;
 	}
 	
+	/**
+	 * @return the upper bound of the interval
+	 */
 	int getHigh() {
 		return high;
 	}
