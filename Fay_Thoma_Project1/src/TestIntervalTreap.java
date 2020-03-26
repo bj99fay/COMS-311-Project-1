@@ -93,6 +93,9 @@ public class TestIntervalTreap {
 		ArrayList<Node> inOrder = new ArrayList<Node>();
 		inOrder(it0.getRoot(), inOrder);
 		
+		for(Node n: inOrder)
+			System.out.println(n.getInterv().getLow() + " | " + n.getPriority());
+		
 		//Check if the array is sorted. If it is not sorted, it's not a valid treap. 
 		for (int k =0; k < inOrder.size()-1; k++) {
 			if (inOrder.get(k).getInterv().getLow() > inOrder.get(k+1).getInterv().getLow()) {

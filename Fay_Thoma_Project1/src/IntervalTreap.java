@@ -57,7 +57,7 @@ public class IntervalTreap {
 			y.setRight(z);
 		}
 		
-		while(z.getParent() != null && z.getInterv().getLow() < z.getParent().getInterv().getLow()) {
+		while(z.getParent() != null && z.getPriority() < z.getParent().getPriority()) {
 			if(z.equals(z.getParent().getLeft())) {
 				this.rightRotate(z);
 			} else {
