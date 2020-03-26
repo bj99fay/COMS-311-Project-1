@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Random;
 
 public class IntervalTreap {
 	Node root;
@@ -32,6 +33,37 @@ public class IntervalTreap {
 	
 	public void intervalInsert(Node z) {
 		//TODO
+		if(z == null) return;
+		
+		z.setPriority(new Random().nextInt(Integer.MAX_VALUE));
+		z.setImax(z.getInterv().getHigh());
+		Node y = null;
+		Node x = root;
+		while(x != null) {
+			y = x;
+			y.setImax(Math.max(y.getIMax(), z.getInterv().getHigh()));
+			if(z.getInterv().getLow() < x.getInterv().getLow()) {
+				x = x.getLeft();
+			} else {
+				x = x.getRight();
+			}
+		}
+		z.setParent(y);
+		if(y == null) {
+			root = z;
+		} else if(z.getInterv().getLow() < y.getInterv().getLow()) {
+			y.setLeft(z);
+		} else {
+			y.setRight(z);
+		}
+		
+		while(z.getParent() != null && z.getInterv().getLow() < z.getParent().getInterv().getLow()) {
+			if(z.equals(z.getParent().getLeft())) {
+				this.rightRotate(z);
+			} else {
+				this.leftRotate(z);
+			}
+		}
 	}
 	
 	public void intervalDelete(Node z) {
@@ -78,6 +110,81 @@ public class IntervalTreap {
 			overlap = true;
 		}
 		return overlap;
+	}
+	
+	/**
+	 * Performs a left rotation on the subtree rooted at x.parent (CLRS)
+	 * and updates the iMax fields accordingly
+	 * @param x
+	 * 		the node to left rotate into its parent's spot
+	 */
+	private void leftRotate(Node x) {
+		Node y = x.getRight();
+		x.setRight(y.getLeft());
+		if(y.getLeft() != null) {
+			y.getLeft().setParent(x);
+		}
+		y.setParent(x.getParent());
+		if(x.getParent() == null) {
+			root = y;
+		} else if(x == x.getParent().getLeft()) {
+			x.getParent().setLeft(y);
+		} else {
+			x.getParent().setRight(y);
+		}
+		y.setLeft(x);
+		x.setParent(y);
+		
+		if(y != null) this.adjustIMax(y);
+		if(x != null) this.adjustIMax(x);
+		if(x.getRight() != null) this.adjustIMax(x.getRight());
+	}
+	
+	/**
+	 * Performs a right rotation on the subtree rooted at y.parent (CLRS)
+	 * and updates the iMax fields accordingly
+	 * @param x
+	 * 		the node to right rotate into its parent's spot
+	 */
+	private void rightRotate(Node x) {
+		Node y = x.getLeft();
+		x.setLeft(y.getRight());
+		if(y.getRight() != null) {
+			y.getRight().setParent(x);
+		}
+		y.setParent(x.getParent());
+		if(x.getParent() == null) {
+			root = y;
+		} else if(x == x.getParent().getLeft()) {
+			x.getParent().setLeft(y);
+		} else {
+			x.getParent().setRight(y);
+		}
+		y.setRight(x);
+		x.setParent(y);
+		
+		if(y != null) this.adjustIMax(y);
+		if(x != null) this.adjustIMax(x);
+		if(x.getLeft() != null) this.adjustIMax(x.getLeft());
+	}
+	
+	
+	/**
+	 * Adjusts the iMax value of x based on the rule specified in the assignment
+	 * @param x
+	 * 		the node to adjust the iMax value of
+	 */
+	private void adjustIMax(Node x) {
+		if(x == null) return;
+		else if(x.getLeft() == null && x.getRight() == null) {
+			x.setImax(x.getInterv().getHigh());
+		} else if(x.getRight() == null) {
+			x.setImax(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()));
+		} else if(x.getLeft() == null) {
+			x.setImax(Math.max(x.getInterv().getHigh(), x.getRight().getIMax()));
+		} else {
+			x.setImax(Math.max(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getRight().getIMax()));
+		}
 	}
 	
 	/**

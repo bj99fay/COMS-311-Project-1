@@ -1,4 +1,3 @@
-import java.util.Random;
 
 public class Node {
 	private int priority, imax;
@@ -12,7 +11,6 @@ public class Node {
 	 */
 	public Node(Interval i) {
 		interv = i;
-		priority = new Random().nextInt(Integer.MAX_VALUE);
 	}
 	
 	/**
@@ -89,5 +87,13 @@ public class Node {
 	 */
 	public void setRight(Node right) {
 		this.right = right;
+	}
+	
+	/**
+	 * @param priority 
+	 * 		the priority to set
+	 */
+	public void setPriority(int priority) {
+		this.priority = priority;
 	}
 }
