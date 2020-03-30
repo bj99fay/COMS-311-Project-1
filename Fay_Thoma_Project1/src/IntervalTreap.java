@@ -116,10 +116,14 @@ public class IntervalTreap {
 		
 		// Case 3: z has two children: replace z by its successor y = Minimum(z.right)
 		if(hasLeftChild && hasRightChild) {
-			z = minimum(z.getRight());
+			//replace z with successor
+			Node successor = minimum(z.getRight());
+			z = successor;
 			if(isRoot) {
 				root = z;
 			}
+			//fix successor's links
+			
 		}
 	}
 	
