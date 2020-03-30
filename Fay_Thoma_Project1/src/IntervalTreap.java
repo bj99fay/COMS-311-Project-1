@@ -59,23 +59,68 @@ public class IntervalTreap {
 		
 		while(z.getParent() != null && z.getPriority() < z.getParent().getPriority()) {
 			if(z.equals(z.getParent().getLeft())) {
-				System.out.println("***Right Rotate***");
+				/*System.out.println("***Right Rotate***");
 				System.out.println("Parent: " + z.getParent().getInterv().getLow() + " | Priority: " + z.getParent().getPriority());
 				System.out.println("Node: " + z.getInterv().getLow() + "  | Priority: " + z.getPriority());
-				System.out.println("----------------------------------------");
+				System.out.println("----------------------------------------");*/
 				this.rightRotate(z.getParent());
 			} else {
-				System.out.println("***Left Rotate***");
+				/*System.out.println("***Left Rotate***");
 				System.out.println("Parent: " + z.getParent().getInterv().getLow() + " | Priority: " + z.getParent().getPriority());
 				System.out.println("Node: " + z.getInterv().getLow() + "  | Priority: " + z.getPriority());
-				System.out.println("----------------------------------------");
+				System.out.println("----------------------------------------");*/
 				this.leftRotate(z.getParent());
 			}
 		}
 	}
 	
+	/**
+	 * Removes node z from the interval treap
+	 * @param z
+	 * 	Node to be removed
+	 */
 	public void intervalDelete(Node z) {
 		//TODO
+		boolean hasLeftChild = false;
+		boolean hasRightChild = false;
+		boolean isRoot = false;
+		
+		//Check for z's children
+		if(z.getLeft() != null) {
+			hasLeftChild = true;
+		}
+		if(z.getRight() != null) {
+			hasRightChild = true;
+		}
+		//Check if z is the root
+		if(z.getParent() == null) {
+			isRoot = true;
+		}
+		
+		//Case 1: z has no left child: replace z by its right child, which may be null.
+		if(!hasLeftChild) {
+			z = z.getRight();
+			//update root if necessary
+			if(isRoot) {
+				root = z;
+			}
+		}
+		
+		// Case 2: z has a left child, but no right child: replace z by its left child
+		if(hasLeftChild && !hasRightChild) {
+			z = z.getLeft();
+			if(isRoot) {
+				root = z;
+			}
+		}
+		
+		// Case 3: z has two children: replace z by its successor y = Minimum(z.right)
+		if(hasLeftChild && hasRightChild) {
+			z = minimum(z.getRight());
+			if(isRoot) {
+				root = z;
+			}
+		}
 	}
 	
 	/**
@@ -128,7 +173,7 @@ public class IntervalTreap {
 	 */
 	private void leftRotate(Node x) {
 		Node y = x.getRight();
-		System.out.println(y.getLeft().getInterv().getLow());
+		//System.out.println(y.getLeft().getInterv().getLow());
 		x.setRight(y.getLeft());
 		if(y.getLeft() != null) {
 			y.getLeft().setParent(x);
@@ -194,6 +239,44 @@ public class IntervalTreap {
 		} else {
 			x.setImax(Math.max(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getRight().getIMax()));
 		}
+	}
+	
+	/**
+	 * Get the node in the subtree rooted at x
+	 * that is the left most interval.
+	 * @param x
+	 * 	root left most node in subtree
+	 * @return
+	 * 	node left most node in subtree
+	 */
+	private Node minimum(Node x) {
+		while(x.getLeft() != null) {
+			x = x.getLeft();
+		}
+		return x;
+	}
+	
+	
+	/** Note: FUNCTION MAY NOT BE NECESSARY
+	 * Return the node containing the interval
+	 * 	immediately following x in the intervalTreap
+	 *  that contains x.
+	 * @param x
+	 * 	Node to return successor of
+	 * @return
+	 * 	node with interval immediately following x
+	 */
+	private Node successor(Node x) {
+		if(x.getRight() != null) {
+			return minimum(x.getRight());
+		}
+		
+		Node y = x.getParent();
+		while(y != null && x == y.getRight()) {
+			x = y;
+			y = y.getParent();
+		}
+		return y;
 	}
 	
 	/**
