@@ -52,49 +52,49 @@ public class TestIntervalTreap {
 		testTreapStructure(it1);
 	}
 
-//	@Test
-//	public void testSmall() {
-//		scanConstruct("src/small_1.txt");
-//		for (Interval i : TP) {
-//			assertNotNull(it1.intervalSearch(i));
-//		}
-//		for (Interval j : TN) {
-//			assertNull(it1.intervalSearch(j));
-//		}
-//		testTreapStructure(it1);
-//	}
+	@Test
+	public void testSmall() {
+		scanConstruct("src/small_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+	}
 
-//	@Test
-//	public void testMedium() {
-//		scanConstruct("src/medium_1.txt");
-//		for (Interval i : TP) {
-//			assertNotNull(it1.intervalSearch(i));
-//		}
-//		for (Interval j : TN) {
-//			assertNull(it1.intervalSearch(j));
-//		}
-//		testTreapStructure(it1);
-//	}
+	@Test
+	public void testMedium() {
+		scanConstruct("src/medium_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+	}
 
-//	@Test
-//	public void testLarge() {
-//		scanConstruct("src/large_1.txt");
-//		for (Interval i : TP) {
-//			assertNotNull(it1.intervalSearch(i));
-//		}
-//		for (Interval j : TN) {
-//			assertNull(it1.intervalSearch(j));
-//		}
-//		testTreapStructure(it1);
-//	}
+	@Test
+	public void testLarge() {
+		scanConstruct("src/large_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+	}
 	
 	private void testTreapStructure(IntervalTreap it0) {
 		//Do an InOrder Traversal and append the nodes into an array
 		ArrayList<Node> inOrder = new ArrayList<Node>();
 		inOrder(it0.getRoot(), inOrder);
 		
-		for(Node n: inOrder)
-			System.out.println(n.getInterv().getLow() + " | " + n.getPriority());
+//		for(Node n: inOrder)
+//			System.out.println(n.getInterv().getLow() + " | " + n.getPriority());
 		
 		//Check if the array is sorted. If it is not sorted, it's not a valid treap. 
 		for (int k =0; k < inOrder.size()-1; k++) {
