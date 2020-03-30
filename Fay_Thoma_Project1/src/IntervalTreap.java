@@ -59,16 +59,8 @@ public class IntervalTreap {
 		
 		while(z.getParent() != null && z.getPriority() < z.getParent().getPriority()) {
 			if(z.equals(z.getParent().getLeft())) {
-				/*System.out.println("***Right Rotate***");
-				System.out.println("Parent: " + z.getParent().getInterv().getLow() + " | Priority: " + z.getParent().getPriority());
-				System.out.println("Node: " + z.getInterv().getLow() + "  | Priority: " + z.getPriority());
-				System.out.println("----------------------------------------");*/
 				this.rightRotate(z.getParent());
 			} else {
-				/*System.out.println("***Left Rotate***");
-				System.out.println("Parent: " + z.getParent().getInterv().getLow() + " | Priority: " + z.getParent().getPriority());
-				System.out.println("Node: " + z.getInterv().getLow() + "  | Priority: " + z.getPriority());
-				System.out.println("----------------------------------------");*/
 				this.leftRotate(z.getParent());
 			}
 		}
@@ -177,7 +169,6 @@ public class IntervalTreap {
 	 */
 	private void leftRotate(Node x) {
 		Node y = x.getRight();
-		//System.out.println(y.getLeft().getInterv().getLow());
 		x.setRight(y.getLeft());
 		if(y.getLeft() != null) {
 			y.getLeft().setParent(x);
