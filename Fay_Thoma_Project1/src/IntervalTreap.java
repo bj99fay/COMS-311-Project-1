@@ -72,10 +72,9 @@ public class IntervalTreap {
 	 * 	Node to be removed
 	 */
 	public void intervalDelete(Node z) {
-		//TODO
+		//phase 1
 		boolean hasLeftChild = false;
 		boolean hasRightChild = false;
-		boolean isRoot = false;
 		
 		//Check for z's children
 		if(z.getLeft() != null) {
@@ -84,55 +83,56 @@ public class IntervalTreap {
 		if(z.getRight() != null) {
 			hasRightChild = true;
 		}
-		//Check if z is the root
-		if(z.getParent() == null) {
-			isRoot = true;
-		}
 		
 		//Case 1: z has no left child: replace z by its right child, which may be null.
 		if(!hasLeftChild) {
-			//update root if necessary
-			if(isRoot) {
-				root = z.getRight();
-			} else {
-				//z is the left child of its parent
-				if(z.getParent().getLeft() == z) {
-					z.getParent().setLeft(z.getRight());
-				} 
-				//z is the right child of its parent
-				else {
-					z.getParent().setRight(z.getRight());
-				}
-			}
-			if(z.getRight() != null) {
-				z.getRight().setParent(z.getParent());
-			}
-			//remove z
-			z = null;
+			deleteTransplant(z, z.getRight());
 		}
-		
 		// Case 2: z has a left child, but no right child: replace z by its left child
-		if(hasLeftChild && !hasRightChild) {
-			//z = z.getLeft();
-			//update root if necessary
-			if(isRoot) {
-				root = z.getLeft();
-			}
-			
-			z = null;
+		else if(hasLeftChild && !hasRightChild) {
+			deleteTransplant(z, z.getLeft());
 		}
-		
 		// Case 3: z has two children: replace z by its successor y = Minimum(z.right)
-		if(hasLeftChild && hasRightChild) {
+		else {
 			//replace z with successor
 			Node successor = minimum(z.getRight());
-			z = successor;
-			if(isRoot) {
-				root = z;
+			if(z.getRight() != successor) {
+				//Case 3b; change right child
+				deleteTransplant(successor,successor.getRight());
+				//set successor right
+				successor.setRight(z.getRight());
+				z.getRight().setParent(successor);
 			}
-			//fix successor's links
-			
+			deleteTransplant(z,successor);
+			//set successor left
+			successor.setLeft(z.getLeft());
+			z.getLeft().setParent(successor);
 		}
+		
+		//TODO not sure if this is needed; remove z?
+		z = null;
+		
+		//phase 2
+		/* The second phase rotates z’s replacement y (assuming y is not null) down the tree as far as necessary
+			to satisfy the constraint that v.priority > v.parent.priority for every node v.
+				Now, suppose we want to delete a node z from an interval treap. We begin by deleting z as in
+			the first phase of ordinary treap deletion. Next, we update the necessary imax fields by traversing
+			a path up the treap.
+				• If z has been replaced by null, the path goes from the former parent of z to the root of the
+					treap.
+				• If z has been replaced by a node y, the path starts at y’s original position in the treap and
+					goes up to the root.
+				In both cases, we decrement the imax field of each node on the path, as needed. Since the
+			expected length of this path is O(log n) in an n-node treap, the time spent in traversing the path to
+			update imax fields is O(log n).
+				Finally, if z has been replaced by a node y, we rotate y downward as in an ordinary treap, in
+			order to reestablish the correct priority relationships. We handle the rotations in the same manner
+			as for insertion — that is, we update imax fields after each rotation. Thus, like insertion, deletion
+			takes expected O(log n) time for an n-node interval treap.*/
+		
+		
+		
+		
 	}
 	
 	/**
@@ -267,27 +267,30 @@ public class IntervalTreap {
 		return x;
 	}
 	
-	
-	/** Note: FUNCTION MAY NOT BE NECESSARY
-	 * Return the node containing the interval
-	 * 	immediately following x in the intervalTreap
-	 *  that contains x.
-	 * @param x
-	 * 	Node to return successor of
-	 * @return
-	 * 	node with interval immediately following x
+	/**
+	 * Replace the subtree rooted at node u with the subtree
+     *	rooted at node v
+	 * @param u
+	 * 	node whose subtree needs to be replaced
+	 * @param v
+	 * 	node whose subtree replaces u's
 	 */
-	private Node successor(Node x) {
-		if(x.getRight() != null) {
-			return minimum(x.getRight());
+	private void deleteTransplant(Node u, Node v) {
+		//update root if necessary
+		if(u.getParent() == null) {
+			root = v;
 		}
-		
-		Node y = x.getParent();
-		while(y != null && x == y.getRight()) {
-			x = y;
-			y = y.getParent();
+		//z is the left child of its parent
+		else if(u == u.getParent().getLeft()) {
+			u.getParent().setLeft(v);
+		} 
+		//z is the right child of its parent
+		else {
+			u.getParent().setRight(v);
 		}
-		return y;
+		if(v != null) {
+			v.setParent(u.getParent());
+		}
 	}
 	
 	/**
