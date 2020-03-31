@@ -91,19 +91,35 @@ public class IntervalTreap {
 		
 		//Case 1: z has no left child: replace z by its right child, which may be null.
 		if(!hasLeftChild) {
-			z = z.getRight();
 			//update root if necessary
 			if(isRoot) {
-				root = z;
+				root = z.getRight();
+			} else {
+				//z is the left child of its parent
+				if(z.getParent().getLeft() == z) {
+					z.getParent().setLeft(z.getRight());
+				} 
+				//z is the right child of its parent
+				else {
+					z.getParent().setRight(z.getRight());
+				}
 			}
+			if(z.getRight() != null) {
+				z.getRight().setParent(z.getParent());
+			}
+			//remove z
+			z = null;
 		}
 		
 		// Case 2: z has a left child, but no right child: replace z by its left child
 		if(hasLeftChild && !hasRightChild) {
-			z = z.getLeft();
+			//z = z.getLeft();
+			//update root if necessary
 			if(isRoot) {
-				root = z;
+				root = z.getLeft();
 			}
+			
+			z = null;
 		}
 		
 		// Case 3: z has two children: replace z by its successor y = Minimum(z.right)
@@ -149,7 +165,7 @@ public class IntervalTreap {
 	 * @param x
 	 * 	interval x
 	 * @return
-	 * 	true if intervals overlap
+	 * 	true if intervals overlap 
 	 *  false if intervals do not overlap
 	 */
 	public boolean intervalOverlap(Interval i, Interval x) {
