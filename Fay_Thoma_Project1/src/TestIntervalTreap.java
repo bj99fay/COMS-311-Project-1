@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.junit.After;
@@ -41,6 +42,55 @@ public class TestIntervalTreap {
 	}
 
 	@Test
+	public void testWithDelete() {
+		scanConstruct("src/medium_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+		while(it1.getRoot() != null) {
+			System.out.println();
+			/* Random maxes
+			  use 21298 for medium test
+			  use 2467 for small
+			  use 21 for mini_delete	
+			*/
+			int rand1 = new Random().nextInt(21298);
+			int rand2 = new Random().nextInt(21298);
+			Node z = null;
+			if(rand1 > rand2) {
+				z = it1.intervalSearch(new Interval(rand2,rand1));
+				System.out.println("Z: (" + rand2 + " - " + rand1 + ")");
+			} else {
+				z = it1.intervalSearch(new Interval(rand1,rand2));
+				System.out.println("Z: (" + rand1 + " - " + rand2 + ")");
+			}
+			if(z != null) {
+				//Node z = it1.getRoot();
+				System.out.println("Root: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+				System.out.println("Interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+						+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+				System.out.println("Delete node");
+				it1.intervalDelete(z);
+				System.out.println();
+				if(it1.getRoot() != null) {
+					System.out.println("Root: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+					testTreapStructure(it1);
+				}
+			}
+		}
+		if(it1.getRoot() == null) {
+			System.out.println("Success: No nodes, empty");
+		} else {
+			System.out.println("Fail: Not empty");
+		}
+	}
+
+	
+	@Test
 	public void testMini() {
 		scanConstruct("src/mini_1.txt");
 		for (Interval i : TP) {
@@ -50,8 +100,43 @@ public class TestIntervalTreap {
 			assertNull(it1.intervalSearch(j));
 		}
 		testTreapStructure(it1);
+		/* Testing to see if removal of all nodes is working
+		 * System.out.println();
+		Node z = it1.getRoot();
+		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+		System.out.println("Delete root");
+		it1.intervalDelete(z);
+		
+		System.out.println();
+		System.out.println("Root interval: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+		testTreapStructure(it1);
+		System.out.println();
+		z = it1.getRoot();
+		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+		System.out.println("Delete root");
+		it1.intervalDelete(z);
+		System.out.println();
+		System.out.println("Root interval: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+		testTreapStructure(it1);
+		
+		System.out.println();
+		z = it1.getRoot();
+		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+		System.out.println("Delete root");
+		
+		it1.intervalDelete(z);
+		System.out.println();
+		if(it1.getRoot() == null) {
+			System.out.println("Success: No nodes, empty");
+		} else {
+			System.out.println("Fail: Not empty");
+		}*/
 	}
-
+	 
+	 
 	@Test
 	public void testSmall() {
 		scanConstruct("src/small_1.txt");
@@ -93,8 +178,8 @@ public class TestIntervalTreap {
 		ArrayList<Node> inOrder = new ArrayList<Node>();
 		inOrder(it0.getRoot(), inOrder);
 		
-//		for(Node n: inOrder)
-//			System.out.println(n.getInterv().getLow() + " | " + n.getPriority());
+		/*for(Node n: inOrder)
+			System.out.println("Interval: (" + n.getInterv().getLow() + " - " + n.getInterv().getHigh() + ")  Imax: " + n.getIMax() + "  Priority: " + n.getPriority());*/
 		
 		//Check if the array is sorted. If it is not sorted, it's not a valid treap. 
 		for (int k =0; k < inOrder.size()-1; k++) {

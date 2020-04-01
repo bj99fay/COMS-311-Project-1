@@ -35,7 +35,7 @@ public class IntervalTreap {
 		//TODO
 		if(z == null) return;
 		
-		z.setPriority(new Random().nextInt(Byte.MAX_VALUE));
+		z.setPriority(new Random().nextInt(Integer.MAX_VALUE));
 		z.setImax(z.getInterv().getHigh());
 		Node y = null;
 		Node x = root;
@@ -64,6 +64,7 @@ public class IntervalTreap {
 				this.leftRotate(z.getParent());
 			}
 		}
+		size++;
 	}
 	
 	/**
@@ -114,8 +115,6 @@ public class IntervalTreap {
 			z.getLeft().setParent(successor);
 		}
 		//phase 2
-		
-		//TODO might need to modify startUpdate to be y's child?
 		//traverse treap to update imax fields
 		Node nodeToUpdate = y;
 		if(nodeToUpdate == null) {
@@ -136,24 +135,23 @@ public class IntervalTreap {
 		if(successor != null) {
 			y = successor;
 		}
-
-		while((y.getLeft() != null && y.getPriority() > y.getLeft().getPriority()) || (y.getRight() != null &&  y.getPriority() > y.getRight().getPriority())) {
-			if(y.getLeft() != null && y.getRight() != null) {
-				if(y.getLeft().getPriority() > y.getRight().getPriority()) {
-					this.leftRotate(y);
-				} else {
+		if(y != null) {
+			while((y.getLeft() != null && y.getPriority() > y.getLeft().getPriority()) || (y.getRight() != null &&  y.getPriority() > y.getRight().getPriority())) {
+				if(y.getLeft() != null && y.getRight() != null) {
+					if(y.getLeft().getPriority() > y.getRight().getPriority()) {
+						this.leftRotate(y);
+					} else {
+						this.rightRotate(y);
+					}
+				}	
+				else if(y.getLeft() != null && y.getPriority() > y.getLeft().getPriority()) {
 					this.rightRotate(y);
 				}
-			}	
-			else if(y.getLeft() != null && y.getPriority() > y.getLeft().getPriority()) {
-				this.rightRotate(y);
-			}
-			else if(y.getRight() != null && y.getPriority() > y.getRight().getPriority()) {
-				this.leftRotate(y);
+				else if(y.getRight() != null && y.getPriority() > y.getRight().getPriority()) {
+					this.leftRotate(y);
+				}
 			}
 		}
-		
-		//TODO not sure if this is needed; remove z?
 		z = null;
 		size--;
 	}
