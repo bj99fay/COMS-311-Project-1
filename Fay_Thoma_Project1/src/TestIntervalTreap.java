@@ -43,7 +43,7 @@ public class TestIntervalTreap {
 
 	@Test
 	public void testWithDelete() {
-		scanConstruct("src/medium_1.txt");
+		scanConstruct("src/small_1.txt");
 		for (Interval i : TP) {
 			assertNotNull(it1.intervalSearch(i));
 		}
@@ -58,8 +58,8 @@ public class TestIntervalTreap {
 			  use 2467 for small
 			  use 21 for mini_delete	
 			*/
-			int rand1 = new Random().nextInt(21298);
-			int rand2 = new Random().nextInt(21298);
+			int rand1 = new Random().nextInt(2467);
+			int rand2 = new Random().nextInt(2467);
 			Node z = null;
 			if(rand1 > rand2) {
 				z = it1.intervalSearch(new Interval(rand2,rand1));
@@ -135,6 +135,19 @@ public class TestIntervalTreap {
 			System.out.println("Fail: Not empty");
 		}*/
 	}
+	
+	//Test intervalSearchExactly (extra credit)
+	@Test
+	public void testMiniExact() {
+		scanConstruct("src/mini_exact.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearchExactly(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearchExactly(j));
+		}
+		testTreapStructure(it1);
+	}
 	 
 	 
 	@Test
@@ -145,6 +158,22 @@ public class TestIntervalTreap {
 		}
 		for (Interval j : TN) {
 			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+	}
+	
+	@Test
+	public void testSmallExact() {
+		scanConstruct("src/small_exact.txt");
+		for (Interval i : TP) {
+			//try {
+				assertNotNull(it1.intervalSearchExactly(i));
+			/*} catch(AssertionError error) {
+				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+			}*/
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearchExactly(j));
 		}
 		testTreapStructure(it1);
 	}
@@ -178,8 +207,8 @@ public class TestIntervalTreap {
 		ArrayList<Node> inOrder = new ArrayList<Node>();
 		inOrder(it0.getRoot(), inOrder);
 		
-		/*for(Node n: inOrder)
-			System.out.println("Interval: (" + n.getInterv().getLow() + " - " + n.getInterv().getHigh() + ")  Imax: " + n.getIMax() + "  Priority: " + n.getPriority());*/
+		for(Node n: inOrder)
+			System.out.println("Interval: (" + n.getInterv().getLow() + " - " + n.getInterv().getHigh() + ")  Imax: " + n.getIMax() + "  Priority: " + n.getPriority());
 		
 		//Check if the array is sorted. If it is not sorted, it's not a valid treap. 
 		for (int k =0; k < inOrder.size()-1; k++) {

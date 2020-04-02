@@ -321,8 +321,36 @@ public class IntervalTreap {
 	 * 		the exact interval to search for
 	 */
 	public Node intervalSearchExactly(Interval i) {
-		//TODO
-		return null;
+		// IntervalSearch from CLRS
+		Node x = root;
+		while(x != null && !intervalExactOverlap(i, x.getInterv())) {
+			if(x.getLeft() != null && x.getLeft().getIMax() >= i.getLow()) {
+				x = x.getLeft();
+			}
+			else {
+				x = x.getRight();
+			}
+		}
+		return x;
+	}
+	
+	/**
+	 * Check if intervals i and x overlap exactly
+	 * @param i
+	 * 	interval i
+	 * @param x
+	 * 	interval x
+	 * @return
+	 * 	true if intervals overlap exactly
+	 *  false if intervals do not overlap exactly
+	 */
+	public boolean intervalExactOverlap(Interval i, Interval x) {
+		boolean overlap = false;
+		//check if they overlap exactly
+		if(i.getLow() == x.getLow() && i.getHigh() == x.getHigh()) {
+			overlap = true;
+		}
+		return overlap;
 	}
 	
 	/**
