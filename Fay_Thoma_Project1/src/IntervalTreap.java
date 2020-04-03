@@ -32,10 +32,16 @@ public class IntervalTreap {
 	}
 	
 	public void intervalInsert(Node z) {
+		//make sure the node isn't null
 		if(z == null) return;
 		
+		//generate a random priority to maintain balanced treap
 		z.setPriority(new Random().nextInt(Integer.MAX_VALUE));
+		
+		//set the IMax intially to the node's high value
 		z.setImax(z.getInterv().getHigh());
+		
+		//go down the tree based the z's value until we reach a leaf
 		Node y = null;
 		Node x = root;
 		while(x != null) {
@@ -47,7 +53,11 @@ public class IntervalTreap {
 				x = x.getRight();
 			}
 		}
+		
+		//set the leaf to be z's parent
 		z.setParent(y);
+		
+		//assign z to be the correct child of y based on low value
 		if(y == null) {
 			root = z;
 		} else if(z.getInterv().getLow() < y.getInterv().getLow()) {
@@ -56,6 +66,8 @@ public class IntervalTreap {
 			y.setRight(z);
 		}
 		
+		//perform rotations to maintain heap property of the treap
+		//rotate based on priority
 		while(z.getParent() != null && z.getPriority() < z.getParent().getPriority()) {
 			if(z.equals(z.getParent().getLeft())) {
 				this.rightRotate(z.getParent());
@@ -64,12 +76,14 @@ public class IntervalTreap {
 			}
 		}
 		
+		//adjust the IMax and Height of all the nodes above the inserted node
 		y = z.getParent();
-		
 		while(y != null) {
 			this.makeAdjustments(y);
+			y = y.getParent();
 		}
 		
+		//increment the size of the treap
 		size++;
 	}
 	
