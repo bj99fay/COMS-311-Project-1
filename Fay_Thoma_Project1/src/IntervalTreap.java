@@ -32,7 +32,6 @@ public class IntervalTreap {
 	}
 	
 	public void intervalInsert(Node z) {
-		//TODO
 		if(z == null) return;
 		
 		z.setPriority(new Random().nextInt(Integer.MAX_VALUE));
@@ -64,6 +63,13 @@ public class IntervalTreap {
 				this.leftRotate(z.getParent());
 			}
 		}
+		
+		y = z.getParent();
+		
+		while(y != null) {
+			this.makeAdjustments(y);
+		}
+		
 		size++;
 	}
 	
@@ -127,7 +133,7 @@ public class IntervalTreap {
 		}
 		//from startUpdate to root
 		while(nodeToUpdate != null) {
-			adjustIMax(nodeToUpdate);
+			makeAdjustments(nodeToUpdate);
 			nodeToUpdate = nodeToUpdate.getParent();
 		}
 		
@@ -221,9 +227,8 @@ public class IntervalTreap {
 		y.setLeft(x);
 		x.setParent(y);
 		
-		if(y != null) this.adjustIMax(y);
-		if(x != null) this.adjustIMax(x);
-		if(x.getRight() != null) this.adjustIMax(x.getRight());
+		if(x != null) this.makeAdjustments(x);
+		if(y != null) this.makeAdjustments(y);
 	}
 	
 	/**
@@ -249,27 +254,30 @@ public class IntervalTreap {
 		y.setRight(x);
 		x.setParent(y);
 		
-		if(y != null) this.adjustIMax(y);
-		if(x != null) this.adjustIMax(x);
-		if(x.getLeft() != null) this.adjustIMax(x.getLeft());
+		if(x != null) this.makeAdjustments(x);
+		if(y != null) this.makeAdjustments(y);
 	}
 	
 	
 	/**
-	 * Adjusts the iMax value of x based on the rule specified in the assignment
+	 * Adjusts the iMax value and Height of x based on the rule specified in the assignment
 	 * @param x
-	 * 		the node to adjust the iMax value of
+	 * 		the node to adjust the iMax value and Height of
 	 */
-	private void adjustIMax(Node x) {
+	private void makeAdjustments(Node x) {
 		if(x == null) return;
 		else if(x.getLeft() == null && x.getRight() == null) {
 			x.setImax(x.getInterv().getHigh());
+			x.setHeight(0);
 		} else if(x.getRight() == null) {
 			x.setImax(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()));
+			x.setHeight(x.getLeft().getHeight() + 1);
 		} else if(x.getLeft() == null) {
 			x.setImax(Math.max(x.getInterv().getHigh(), x.getRight().getIMax()));
+			x.setHeight(x.getRight().getHeight() + 1);
 		} else {
 			x.setImax(Math.max(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getRight().getIMax()));
+			x.setHeight(Math.max(x.getLeft().getHeight(), x.getRight().getHeight()) + 1);
 		}
 	}
 	

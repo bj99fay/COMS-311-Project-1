@@ -1,6 +1,6 @@
 
 public class Node {
-	private int priority, imax;
+	private int priority, imax, height;
 	private Node parent, left, right;
 	private Interval interv;
 
@@ -55,7 +55,24 @@ public class Node {
 		return priority;
 	}
 
-	//helper methods
+	/*
+	 * helper methods
+	 */
+	
+	/**
+	 * @return the height of the node
+	 */
+	public int getHeight() {
+		return height;
+	}
+	
+	/**
+	 * @param height 
+	 * 		the height to set
+	 */
+	public void setHeight(int height) {
+		this.height = height;
+	}
 	
 	/**
 	 * @param imax 
