@@ -15,7 +15,8 @@ import org.junit.Test;
  * Currently, only tests for general functionality of insert, search.
  * To do: test for correct height, imax, delete, EC
  * 
- * @author Evan McKinney
+ * @author Original Tests: Evan McKinney
+ * Edited and added to by Bernie Fay and Riley Thoma
  *
  */
 public class TestIntervalTreap {
