@@ -41,7 +41,7 @@ public class IntervalTreap {
 		if(z == null) return;
 		
 		//generate a random priority to maintain balanced treap
-		z.setPriority(new Random().nextInt(Integer.MAX_VALUE));
+		z.setPriority(new Random().nextInt(Byte.MAX_VALUE));
 		
 		//set the IMax intially to the node's high value
 		z.setImax(z.getInterv().getHigh());
@@ -142,7 +142,11 @@ public class IntervalTreap {
 				successor.setRight(z.getRight());
 				z.getRight().setParent(successor);
 			}
-			y = successor.getParent();
+			if(successor.getParent() != z) {
+				y = successor.getParent();
+			} else {
+				y = successor;
+			}
 			deleteTransplant(z,successor);
 			//set successor left
 			successor.setLeft(z.getLeft());
@@ -155,6 +159,7 @@ public class IntervalTreap {
 			if(z.getParent() == null) {
 				z = null;
 				size = 0;
+				height--;
 				return;
 			}
 			nodeToUpdate = z.getParent();
@@ -186,8 +191,17 @@ public class IntervalTreap {
 				}
 			}
 		}
+		
+		//update heights from first node that was rotated into y's spot upwards
+		while(y != null) {
+			makeAdjustments(y);
+			y = y.getParent();
+		}
+		
 		z = null;
 		size--;
+		//set height to height of root node
+		height = root.getHeight();
 	}
 	
 	/**
@@ -255,8 +269,8 @@ public class IntervalTreap {
 		y.setLeft(x);
 		x.setParent(y);
 		
-		if(x != null) this.makeAdjustments(x);
-		if(y != null) this.makeAdjustments(y);
+		this.makeAdjustments(x);
+		this.makeAdjustments(y);
 	}
 	
 	/**
@@ -282,8 +296,8 @@ public class IntervalTreap {
 		y.setRight(x);
 		x.setParent(y);
 		
-		if(x != null) this.makeAdjustments(x);
-		if(y != null) this.makeAdjustments(y);
+		this.makeAdjustments(x);
+		this.makeAdjustments(y);
 	}
 	
 	
