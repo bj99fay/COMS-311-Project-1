@@ -1,3 +1,4 @@
+import java.util.Random;
 
 public class Node {
 	private int priority, imax, height;
@@ -11,6 +12,8 @@ public class Node {
 	 */
 	public Node(Interval i) {
 		interv = i;
+		//generate a random priority to maintain balanced treap
+		priority = new Random().nextInt(Integer.MAX_VALUE);
 	}
 	
 	/**

@@ -44,108 +44,109 @@ public class TestIntervalTreap {
 		TN = null;
 	}
 
-	@Test
-	public void testWithDelete() {
-		scanConstruct("src/small_1.txt");
-		for (Interval i : TP) {
-			assertNotNull(it1.intervalSearch(i));
-		}
-		for (Interval j : TN) {
-			assertNull(it1.intervalSearch(j));
-		}
-		System.out.println("First Test");
-		testTreapStructure(it1);
-		//printNodeAndChildren(it1.getRoot());
-		while(it1.getRoot() != null) {
-			System.out.println();
-			/* Random maxes
-			  use 21298 for medium test
-			  use 2467 for small
-			  use 21 for mini_forDelete	
-			*/
-			int rand1 = new Random().nextInt(2467);
-			int rand2 = new Random().nextInt(2467);
-			Node z = null;
-			if(rand1 > rand2) {
-				z = it1.intervalSearch(new Interval(rand2,rand1));
-				System.out.println("Z: (" + rand2 + " - " + rand1 + ")");
-			} else {
-				z = it1.intervalSearch(new Interval(rand1,rand2));
-				System.out.println("Z: (" + rand1 + " - " + rand2 + ")");
-			}
-			if(z != null) {
-				//Node z = it1.getRoot();
-				System.out.println("Root: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
-				System.out.println("Interval to delete: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
-						+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
-				System.out.println("Delete node");
-				it1.intervalDelete(z);
-				testHeight(it1);
-				System.out.println();
-				if(it1.getRoot() != null) {
-					System.out.println("Root: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
-					testTreapStructure(it1);
-					//printNodeAndChildren(it1.getRoot());
-				}
-			}
-		}
-		if(it1.getRoot() == null) {
-			System.out.println("Success: No nodes, empty");
-		} else {
-			System.out.println("Fail: Not empty");
-		}
-	}
-
-	
 //	@Test
-//	public void testMini() {
-//		scanConstruct("src/mini_1.txt");
+//	public void testWithDelete() {
+//		scanConstruct("src/small_1.txt");
 //		for (Interval i : TP) {
 //			assertNotNull(it1.intervalSearch(i));
 //		}
 //		for (Interval j : TN) {
 //			assertNull(it1.intervalSearch(j));
 //		}
+//		System.out.println("First Test");
 //		testTreapStructure(it1);
-//		testHeight(it1);
-//		 /*Testing to see if removal of all nodes is working*/
-//		/*System.out.println();
-//		Node z = it1.getRoot();
-//		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
-//				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
-//		System.out.println("Delete root");
-//		it1.intervalDelete(z);
-//		
-//		System.out.println();
-//		System.out.println("Root interval: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
-//		testTreapStructure(it1);
-//		testHeight(it1);
-//		System.out.println();
-//		z = it1.getRoot();
-//		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
-//				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
-//		System.out.println("Delete root");
-//		it1.intervalDelete(z);
-//		System.out.println();
-//		System.out.println("Root interval: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
-//		testTreapStructure(it1);
-//		testHeight(it1);
-//		
-//		System.out.println();
-//		z = it1.getRoot();
-//		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
-//				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
-//		System.out.println("Delete root");
-//		
-//		it1.intervalDelete(z);
-//		testHeight(it1);
-//		System.out.println();
+//		//printNodeAndChildren(it1.getRoot());
+//		while(it1.getRoot() != null) {
+//			System.out.println();
+//			/* Random maxes
+//			  use 21298 for medium test
+//			  use 2467 for small
+//			  use 21 for mini_forDelete	
+//			*/
+//			int rand1 = new Random().nextInt(2467);
+//			int rand2 = new Random().nextInt(2467);
+//			Node z = null;
+//			if(rand1 > rand2) {
+//				z = it1.intervalSearch(new Interval(rand2,rand1));
+//				System.out.println("Z: (" + rand2 + " - " + rand1 + ")");
+//			} else {
+//				z = it1.intervalSearch(new Interval(rand1,rand2));
+//				System.out.println("Z: (" + rand1 + " - " + rand2 + ")");
+//			}
+//			if(z != null) {
+//				//Node z = it1.getRoot();
+//				System.out.println("Root: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+//				System.out.println("Interval to delete: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+//						+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+//				System.out.println("Delete node");
+//				it1.intervalDelete(z);
+//				testHeight(it1);
+//				System.out.println();
+//				if(it1.getRoot() != null) {
+//					System.out.println("Root: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+//					testTreapStructure(it1);
+//					//printNodeAndChildren(it1.getRoot());
+//				}
+//			}
+//		}
 //		if(it1.getRoot() == null) {
 //			System.out.println("Success: No nodes, empty");
 //		} else {
 //			System.out.println("Fail: Not empty");
-//		}*/
+//		}
 //	}
+
+	
+	@Test
+	public void testMini() {
+		scanConstruct("src/mini_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+		testHeight(it1);
+		checkImax(it1);
+		 /*Testing to see if removal of all nodes is working*/
+		/*System.out.println();
+		Node z = it1.getRoot();
+		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+		System.out.println("Delete root");
+		it1.intervalDelete(z);
+		
+		System.out.println();
+		System.out.println("Root interval: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+		testTreapStructure(it1);
+		testHeight(it1);
+		System.out.println();
+		z = it1.getRoot();
+		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+		System.out.println("Delete root");
+		it1.intervalDelete(z);
+		System.out.println();
+		System.out.println("Root interval: (" + it1.getRoot().getInterv().getLow() + " - " + it1.getRoot().getInterv().getHigh() + ")");
+		testTreapStructure(it1);
+		testHeight(it1);
+		
+		System.out.println();
+		z = it1.getRoot();
+		System.out.println("Root interval: (" + z.getInterv().getLow() + " - " + z.getInterv().getHigh() 
+				+ ")  Imax: " + z.getIMax() + "  Priority: " + z.getPriority());
+		System.out.println("Delete root");
+		
+		it1.intervalDelete(z);
+		testHeight(it1);
+		System.out.println();
+		if(it1.getRoot() == null) {
+			System.out.println("Success: No nodes, empty");
+		} else {
+			System.out.println("Fail: Not empty");
+		}*/
+	}
 	
 	//Test intervalSearchExactly (extra credit)
 	/*@Test
@@ -162,17 +163,19 @@ public class TestIntervalTreap {
 	}*/
 	 
 	 
-//	@Test
-//	public void testSmall() {
-//		scanConstruct("src/small_1.txt");
-//		for (Interval i : TP) {
-//			assertNotNull(it1.intervalSearch(i));
-//		}
-//		for (Interval j : TN) {
-//			assertNull(it1.intervalSearch(j));
-//		}
-//		testTreapStructure(it1);
-//	}
+	@Test
+	public void testSmall() {
+		scanConstruct("src/small_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+		testHeight(it1);
+		checkImax(it1);
+	}
 	
 	/*@Test
 	public void testSmallExact() {
@@ -193,69 +196,73 @@ public class TestIntervalTreap {
 		testTreapStructure(it1);
 	}*/
 
-//	@Test
-//	public void testMedium() {
-//		scanConstruct("src/medium_1.txt");
-//		for (Interval i : TP) {
-//			assertNotNull(it1.intervalSearch(i));
-//		}
-//		for (Interval j : TN) {
-//			assertNull(it1.intervalSearch(j));
-//		}
-//		testTreapStructure(it1);
-//	}
+	@Test
+	public void testMedium() {
+		scanConstruct("src/medium_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+		testHeight(it1);
+		checkImax(it1);
+	}
 
-//	@Test
-//	public void testLarge() {
-//		scanConstruct("src/large_1.txt");
-//		for (Interval i : TP) {
-//			assertNotNull(it1.intervalSearch(i));
-//		}
-//		for (Interval j : TN) {
-//			assertNull(it1.intervalSearch(j));
-//		}
-//		testTreapStructure(it1);
-//	}
+	@Test
+	public void testLarge() {
+		scanConstruct("src/large_1.txt");
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearch(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearch(j));
+		}
+		testTreapStructure(it1);
+		testHeight(it1);
+		checkImax(it1);
+	}
 	
 	/**
 	 * Tests the deletion of the root node when the treap
 	 * only contains one node.
 	 */
-//	@Test 
-//	public void testDeleteOnlyNodeInTreap() {
-//		IntervalTreap it = new IntervalTreap();
-//		it.intervalInsert(new Node(new Interval(-5, 5)));
-//		assert(it.size==1);
-//		assert(it.getHeight()==0);
-//		assert(it.getSize()==1);
-//		
-//		Node n = it.getRoot();
-//		it.intervalDelete(n);
-//		
-//		assert(it.root==null);
-//		assert(it.size==0);
-//		//System.out.println(it.getHeight());
-//		assert(it.getHeight()<1);
-//		assert(it.getSize()==0);
-//	}
+	/*@Test 
+	public void testDeleteOnlyNodeInTreap() {
+		IntervalTreap it = new IntervalTreap();
+		it.intervalInsert(new Node(new Interval(-5, 5)));
+		assert(it.size==1);
+		assert(it.getHeight()==0);
+		assert(it.getSize()==1);
+		
+		Node n = it.getRoot();
+		it.intervalDelete(n);
+		
+		assert(it.root==null);
+		assert(it.size==0);
+		//System.out.println(it.getHeight());
+		assert(it.getHeight()<1);
+		assert(it.getSize()==0);
+	}*/
 	
 	/**
 	 * Add a thousand random nodes and check that getHeight() is correct
 	 */
-//	@Test public void testGetHeight() {
-//		IntervalTreap it = new IntervalTreap();
-//		Random rand = new Random();
-//
-//		int numNodes = 1000;
-//
-//		for(int i = 0; i < numNodes; i++) {
-//			int r1 = rand.nextInt(),r2 = rand.nextInt();
-//			it.intervalInsert(new Node(new Interval(Math.min(r1,r2), Math.max(r1,r2))));
-//			//System.out.println(it.getHeight());
-//			testHeight(it);
-//		}
-//
-//	}
+	/*@Test public void testGetHeight() {
+		IntervalTreap it = new IntervalTreap();
+		Random rand = new Random();
+
+		int numNodes = 1000;
+
+		for(int i = 0; i < numNodes; i++) {
+			int r1 = rand.nextInt(),r2 = rand.nextInt();
+			it.intervalInsert(new Node(new Interval(Math.min(r1,r2), Math.max(r1,r2))));
+			//System.out.println(it.getHeight());
+			testHeight(it);
+		}
+
+	}*/
 	
 	private void testTreapStructure(IntervalTreap it0) {
 		//Do an InOrder Traversal and append the nodes into an array
@@ -339,6 +346,44 @@ public class TestIntervalTreap {
 		return h;
 	}
 	
+	/**
+	 * Recursively check that all IMax values are what they should be
+	 * @param n the node to begin searching at
+	 */
+	void checkImaxRecursive(Node n) {
+		if(n==null) return;
+		
+		assert(calculateImax(n)==n.getIMax());
+
+		if(n.getLeft() != null) checkImaxRecursive(n.getLeft());
+		if(n.getRight() != null) checkImaxRecursive(n.getRight());
+	}
+
+	/**
+	 * Calculates what IMax should be for a given node
+	 * @param n the node to calculate IMax for
+	 * @return IMax
+	 */
+	int calculateImax(Node n) {
+		int ret = n.getInterv().getHigh();
+
+		if(n.getLeft() != null) ret = Math.max(ret, calculateImax(n.getLeft()));
+		if(n.getRight() != null) ret = Math.max(ret, calculateImax(n.getRight()));
+
+		return ret;
+	}
+
+	/**
+	 * Recursively check that all IMax values in a treap are what
+	 * they should be
+	 * @param it
+	 */
+	void checkImax(IntervalTreap it) {
+
+		if(it.root==null) return;
+		
+		checkImaxRecursive(it.root);
+	}
 	
 	private void scanConstruct(String fn) {
 		File f = new File(fn);

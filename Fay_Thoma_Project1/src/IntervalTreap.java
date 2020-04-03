@@ -40,9 +40,6 @@ public class IntervalTreap {
 		//make sure the node isn't null
 		if(z == null) return;
 		
-		//generate a random priority to maintain balanced treap
-		z.setPriority(new Random().nextInt(Byte.MAX_VALUE));
-		
 		//set the IMax intially to the node's high value
 		z.setImax(z.getInterv().getHigh());
 		
