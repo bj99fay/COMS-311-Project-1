@@ -31,6 +31,11 @@ public class IntervalTreap {
 		return height;
 	}
 	
+	/**
+	 * Insert a node into the treap
+	 * @param z
+	 * 	the node to insert into the treap
+	 */
 	public void intervalInsert(Node z) {
 		//make sure the node isn't null
 		if(z == null) return;
@@ -80,11 +85,20 @@ public class IntervalTreap {
 		y = z.getParent();
 		while(y != null) {
 			this.makeAdjustments(y);
+			
+			//assign as root if node doesn't have parent
+			if(y.getParent() == null) {
+				root = y;
+			}
+			
 			y = y.getParent();
 		}
 		
 		//increment the size of the treap
 		size++;
+		
+		//set height to height of root node
+		height = root.getHeight();
 	}
 	
 	/**
@@ -346,13 +360,14 @@ public class IntervalTreap {
 		// IntervalSearch from CLRS
 		Node x = root;
 		while(x != null && !intervalExactOverlap(i, x.getInterv())) {
-			if(x.getLeft() != null && x.getLeft().getIMax() >= i.getLow()) {
+			if(x.getLeft() != null && x.getInterv().getLow() >= i.getLow()) {
 				x = x.getLeft();
 			}
 			else {
 				x = x.getRight();
 			}
 		}
+//		System.out.println("x: (" + x.getInterv().getLow() + " - " + x.getInterv().getHigh() + ")");
 		return x;
 	}
 	
@@ -371,6 +386,9 @@ public class IntervalTreap {
 		//check if they overlap exactly
 		if(i.getLow() == x.getLow() && i.getHigh() == x.getHigh()) {
 			overlap = true;
+//		} else {
+//			System.out.println("Lows: i = " + i.getLow() + "; x = " + x.getLow());
+//			System.out.println("Highs: i = " + i.getHigh() + "; x = " + x.getHigh());
 		}
 		return overlap;
 	}
