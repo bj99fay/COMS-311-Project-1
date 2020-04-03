@@ -170,11 +170,11 @@ public class TestIntervalTreap {
 		this.printNodeAndChildren(it1.getRoot());
 		
 		for (Interval i : TP) {
-			try {
+//			try {
 				assertNotNull(it1.intervalSearchExactly(i));
-			} catch(AssertionError error) {
-				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-			}
+//			} catch(AssertionError error) {
+//				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+//			}
 		}
 		for (Interval j : TN) {
 			assertNull(it1.intervalSearchExactly(j));
