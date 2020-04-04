@@ -140,18 +140,18 @@ public class TestIntervalTreap {
 	}
 
 	// Test intervalSearchExactly (extra credit)
-//	@Test
-//	public void testMiniExact() {
-//		scanConstruct("src/mini_exact.txt");
-//		this.printNodeAndChildren(it1.getRoot(), 0);
-//		for (Interval i : TP) {
-//			assertNotNull(it1.intervalSearchExactly(i));
-//		}
-//		for (Interval j : TN) {
-//			assertNull(it1.intervalSearchExactly(j));
-//		}
-//		testTreapStructure(it1);
-//	}
+	@Test
+	public void testMiniExact() {
+		scanConstruct("src/mini_exact.txt");
+		this.printNodeAndChildren(it1.getRoot(), 0);
+		for (Interval i : TP) {
+			assertNotNull(it1.intervalSearchExactly(i));
+		}
+		for (Interval j : TN) {
+			assertNull(it1.intervalSearchExactly(j));
+		}
+		testTreapStructure(it1);
+	}
 
 	@Test
 	public void testSmall() {
@@ -336,11 +336,13 @@ public class TestIntervalTreap {
 	}
 
 	public void printNodeAndChildren(Node x, int level) {
-		if (x == null)
-			return;
-
 		for (int i = 0; i < level; i++)
 			System.out.print("|\t");
+		
+		if (x == null) {
+			System.out.println("null");
+			return;
+		}
 
 		System.out.println("Node: (" + x.getInterv().getLow() + ", " + x.getInterv().getHigh() + ")");// Priority: " +
 																										// x.getPriority()

@@ -6,7 +6,6 @@ public class IntervalTreap {
 	int size, height;
 
 	public IntervalTreap() {
-		// TODO
 		height = -1;
 	}
 
@@ -364,20 +363,13 @@ public class IntervalTreap {
 	public Node intervalSearchExactly(Interval i) {
 		// IntervalSearch from CLRS
 		Node x = root;
-		while (x != null && !intervalExactOverlap(i, x.getInterv())) {
-			if (x.getInterv().getLow() == i.getLow()) {
-				if (x.getLeft() != null && x.getInterv().getHigh() > i.getLow()) {
-					x = x.getLeft();
-				} else {
-					x = x.getRight();
-				}
-			} else if (x.getLeft() != null && x.getInterv().getLow() > i.getLow()) {
+		while (x != null && !intervalOverlap(i, x.getInterv())) {
+			if (x.getLeft() != null && x.getLeft().getIMax() >= i.getHigh()) {
 				x = x.getLeft();
 			} else {
 				x = x.getRight();
 			}
 		}
-//		System.out.println("x: (" + x.getInterv().getLow() + " - " + x.getInterv().getHigh() + ")");
 		return x;
 	}
 
@@ -419,11 +411,13 @@ public class IntervalTreap {
 	}
 
 	private void recursiveOverlap(Interval i, Node n, List<Interval> intervList) {
-		if(n != null && this.intervalOverlap(i, n.getInterv())) {
+		if (n != null)
+			return;
+		if (this.intervalOverlap(i, n.getInterv())) {
 			intervList.add(n.getInterv());
-			this.recursiveOverlap(i, n.getLeft(), intervList);
-			this.recursiveOverlap(i, n.getRight(), intervList);
 		}
+		this.recursiveOverlap(i, n.getLeft(), intervList);
+		this.recursiveOverlap(i, n.getRight(), intervList);
 	}
 
 }

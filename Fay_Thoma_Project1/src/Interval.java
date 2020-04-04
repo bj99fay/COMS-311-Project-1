@@ -16,14 +16,14 @@ public class Interval {
 	/**
 	 * @return the lower bound of the interval
 	 */
-	int getLow() {
+	public int getLow() {
 		return low;
 	}
 	
 	/**
 	 * @return the upper bound of the interval
 	 */
-	int getHigh() {
+	public int getHigh() {
 		return high;
 	}
 } 
