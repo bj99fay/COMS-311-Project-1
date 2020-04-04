@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,37 +41,34 @@ public class OurTests {
 
 	@Test
 	public void overlapSmall() {
-		scanConstruct("src/small_1.txt");
+		scanConstruct("src/medium_1.txt");
 		for (Interval i : TP) {
+			File f = new File("src/medium_intervals.txt");
+			String line;
+			String[] split;
 			try {
-				assertNotNull(it1.intervalSearch(i));
-			} catch (AssertionError error) {
-				System.out.println("Failed interval search test");
-				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-				testTreapStructure(it1);
-				testHeight(it1);
-				checkImax(it1);
-				System.out.println("Size: " + it1.getSize());
-//				printNodeAndChildren(it1.root, 0);
-			}
-			try {
-				List<Interval> intervs = it1.overlappingIntervals(i);
-				assertNotNull(intervs);
-				System.out.print("i = ");
-				this.printInterval(i);
-				for(Interval interv: intervs) {
-					this.printInterval(interv);
+				sc = new Scanner(f);
+				sc.nextLine(); // skip first line "Intervals"
+				it1 = new IntervalTreap();
+				while (sc.hasNextLine()) {
+					line = sc.nextLine();
+					split = line.split(" ");
+					it1.intervalInsert(new Node(new Interval(Integer.parseInt(split[0]), Integer.parseInt(split[1]))));
 				}
-				System.out.println();
-			} catch (AssertionError error) {
-				System.out.println("Failed overlap test");
-				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-				testTreapStructure(it1);
-				testHeight(it1);
-				checkImax(it1);
-				System.out.println("Size: " + it1.getSize());
-//					printNodeAndChildren(it1.root, 0);
+			} catch (FileNotFoundException e) {
+				fail("File not found exception");
 			}
+			
+			assertNotNull(it1.intervalSearch(i));
+			
+			List<Node> nodes = it1.overlappingIntervals(i);
+			assertNotNull(nodes);
+			
+			for(Node node: nodes) {
+				it1.intervalDelete(node);
+			}
+			nodes = it1.overlappingIntervals(i);
+			assertNull(nodes);
 		}
 		for (Interval j : TN) {
 			assertNull(it1.intervalSearch(j));
