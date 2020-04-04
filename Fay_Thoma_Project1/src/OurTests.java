@@ -41,9 +41,9 @@ public class OurTests {
 
 	@Test
 	public void overlapSmall() {
-		scanConstruct("src/medium_1.txt");
+		scanConstruct("src/large_1.txt");
 		for (Interval i : TP) {
-			File f = new File("src/medium_intervals.txt");
+			File f = new File("src/large_intervals.txt");
 			String line;
 			String[] split;
 			try {

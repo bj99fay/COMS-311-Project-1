@@ -1,3 +1,8 @@
+/**
+ * @author Bernard Fay
+ * @author Riley Thoma
+ */
+
 import java.util.LinkedList;
 import java.util.List;
 

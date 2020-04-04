@@ -1,3 +1,8 @@
+/**
+ * @author Bernard Fay
+ * @author Riley Thoma
+ */
+
 import java.util.Random;
 
 public class Node {

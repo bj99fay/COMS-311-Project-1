@@ -1,3 +1,7 @@
+/**
+ * @author Bernard Fay
+ * @author Riley Thoma
+ */
 
 public class Interval {
 	private int low, high;
