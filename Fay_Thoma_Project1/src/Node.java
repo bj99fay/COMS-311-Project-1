@@ -13,7 +13,7 @@ public class Node {
 	public Node(Interval i) {
 		interv = i;
 		//generate a random priority to maintain balanced treap
-		priority = new Random().nextInt(Integer.MAX_VALUE);
+		priority = new Random().nextInt(Short.MAX_VALUE);
 	}
 	
 	/**
