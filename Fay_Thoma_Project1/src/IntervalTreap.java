@@ -42,6 +42,7 @@ public class IntervalTreap {
 
 		// set the IMax intially to the node's high value
 		z.setIMax(z.getInterv().getHigh());
+		z.setIMin(z.getInterv().getLow());
 
 		// go down the tree based the z's value until we reach a leaf
 		Node y = null;
@@ -49,6 +50,7 @@ public class IntervalTreap {
 		while (x != null) {
 			y = x;
 			y.setIMax(Math.max(y.getIMax(), z.getInterv().getHigh()));
+			y.setIMin(Math.min(y.getIMin(), z.getInterv().getLow()));
 
 			/*
 			 * if (z.getInterv().getLow() == x.getInterv().getLow()) { if
@@ -306,15 +308,19 @@ public class IntervalTreap {
 			return;
 		else if (x.getLeft() == null && x.getRight() == null) {
 			x.setIMax(x.getInterv().getHigh());
+			x.setIMin(x.getInterv().getLow());
 			x.setHeight(0);
 		} else if (x.getRight() == null) {
 			x.setIMax(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()));
+			x.setIMin(Math.min(x.getInterv().getLow(), x.getLeft().getIMin()));
 			x.setHeight(x.getLeft().getHeight() + 1);
 		} else if (x.getLeft() == null) {
 			x.setIMax(Math.max(x.getInterv().getHigh(), x.getRight().getIMax()));
+			x.setIMin(Math.min(x.getInterv().getLow(), x.getRight().getIMin()));
 			x.setHeight(x.getRight().getHeight() + 1);
 		} else {
 			x.setIMax(Math.max(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getRight().getIMax()));
+			x.setIMin(Math.min(Math.min(x.getInterv().getLow(), x.getLeft().getIMin()), x.getRight().getIMin()));
 			x.setHeight(Math.max(x.getLeft().getHeight(), x.getRight().getHeight()) + 1);
 		}
 	}
@@ -418,7 +424,7 @@ public class IntervalTreap {
 			if (n.getLeft() != null && n.getLeft().getIMax() >= i.getLow()) {
 				this.recursiveOverlap(i, n.getLeft(), nodeList);
 			}
-			if (n.getRight() != null && minimum(n.getRight()).getInterv().getLow() <= i.getHigh()) {
+			if (n.getRight() != null && n.getRight().getIMin() <= i.getHigh()) {
 				this.recursiveOverlap(i, n.getRight(), nodeList);
 			}
 		}
