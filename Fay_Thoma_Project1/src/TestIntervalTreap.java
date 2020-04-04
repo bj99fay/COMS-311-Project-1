@@ -148,25 +148,30 @@ public class TestIntervalTreap {
 			assertNotNull(it1.intervalSearchExactly(i));
 		}
 		for (Interval j : TN) {
-			assertNull(it1.intervalSearchExactly(j));
+			try {
+				assertNull(it1.intervalSearchExactly(j));
+			} catch (AssertionError e) {
+				System.out.println("The interval that failed: (" + j.getLow() + " - " + j.getHigh() + ")");
+			}
 		}
 		testTreapStructure(it1);
 	}
 
-	@Test
+//	@Test
 	public void testSmall() {
 		scanConstruct("src/small_1.txt");
 		for (Interval i : TP) {
-//			try {
+			try {
 				assertNotNull(it1.intervalSearch(i));
-//			} catch (AssertionError error) {
-//				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-//				testTreapStructure(it1);
-//				testHeight(it1);
-//				checkImax(it1);
-//				System.out.println("Size: " + it1.getSize());
-////				printNodeAndChildren(it1.root, 0);
-//			}
+			} catch (AssertionError error) {
+				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+				testTreapStructure(it1);
+				testHeight(it1);
+				checkImax(it1);
+				System.out.println("Size: " + it1.getSize());
+				printNodeAndChildren(it1.root, 0);
+				System.exit(-1);
+			}
 		}
 		for (Interval j : TN) {
 			assertNull(it1.intervalSearch(j));
@@ -180,7 +185,7 @@ public class TestIntervalTreap {
 //	public void testSmallExact() {
 //		scanConstruct("src/small_exact.txt");
 //		
-//		this.printNodeAndChildren(it1.getRoot());
+//		this.printNodeAndChildren(it1.getRoot(), 0);
 //		
 //		for (Interval i : TP) {
 ////			try {
@@ -206,6 +211,7 @@ public class TestIntervalTreap {
 //				assertNotNull(it1.intervalSearchExactly(i));
 //			} catch(AssertionError error) {
 //				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+//				System.exit(-1);
 //			}
 //		}
 //		for (Interval j : TN) {
@@ -218,16 +224,17 @@ public class TestIntervalTreap {
 	public void testMedium() {
 		scanConstruct("src/medium_1.txt");
 		for (Interval i : TP) {
-//			try {
+			try {
 				assertNotNull(it1.intervalSearch(i));
-//			} catch (AssertionError error) {
-//				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-//				testTreapStructure(it1);
-//				testHeight(it1);
-//				checkImax(it1);
-//				System.out.println("Size: " + it1.getSize());
-////				printNodeAndChildren(it1.root, 0);
-//			}
+			} catch (AssertionError error) {
+				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+				testTreapStructure(it1);
+				testHeight(it1);
+				checkImax(it1);
+				System.out.println("Size: " + it1.getSize());
+//				printNodeAndChildren(it1.root, 0);
+				System.exit(-1);
+			}
 		}
 		for (Interval j : TN) {
 			assertNull(it1.intervalSearch(j));
@@ -239,35 +246,35 @@ public class TestIntervalTreap {
 	
 //	@Test
 //	public void repeatedlyTest() {
-//		for (int i = 0; i < 100; i++) {
+//		for (int i = 0; i < 10000; i++) {
 //			it1 = new IntervalTreap();
-//			testLarge();
+//			testSmall();
 //			System.out.println(i);
 //		}
 //	}
 
-	@Test
-	public void testLarge() {
-		scanConstruct("src/large_1.txt");
-		for (Interval i : TP) {
-//			try {
-				assertNotNull(it1.intervalSearch(i));
-//			} catch (AssertionError error) {
-//				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-//				testTreapStructure(it1);
-//				testHeight(it1);
-//				checkImax(it1);
-//				System.out.println("Size: " + it1.getSize());
-////				printNodeAndChildren(it1.root, 0);
-//			}
-		}
-		for (Interval j : TN) {
-			assertNull(it1.intervalSearch(j));
-		}
-		testTreapStructure(it1);
-		testHeight(it1);
-		checkImax(it1);
-	}
+//	@Test
+//	public void testLarge() {
+//		scanConstruct("src/large_1.txt");
+//		for (Interval i : TP) {
+////			try {
+//				assertNotNull(it1.intervalSearch(i));
+////			} catch (AssertionError error) {
+////				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+////				testTreapStructure(it1);
+////				testHeight(it1);
+////				checkImax(it1);
+////				System.out.println("Size: " + it1.getSize());
+//////				printNodeAndChildren(it1.root, 0);
+////			}
+//		}
+//		for (Interval j : TN) {
+//			assertNull(it1.intervalSearch(j));
+//		}
+//		testTreapStructure(it1);
+//		testHeight(it1);
+//		checkImax(it1);
+//	}
 
 	/**
 	 * Tests the deletion of the root node when the treap only contains one node.

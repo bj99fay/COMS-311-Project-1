@@ -40,37 +40,41 @@ public class OurTests {
 
 	@Test
 	public void overlapSmall() {
+		List<Interval> intervs = null;
 		scanConstruct("src/small_1.txt");
 		for (Interval i : TP) {
-			try {
-				assertNotNull(it1.intervalSearch(i));
-			} catch (AssertionError error) {
-				System.out.println("Failed interval search test");
-				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-				testTreapStructure(it1);
-				testHeight(it1);
-				checkImax(it1);
-				System.out.println("Size: " + it1.getSize());
-//				printNodeAndChildren(it1.root, 0);
-			}
-			try {
-				List<Interval> intervs = it1.overlappingIntervals(i);
+//			try {
+//				assertNotNull(it1.intervalSearch(i));
+//			} catch (AssertionError error) {
+//				System.out.println("Failed interval search test");
+//				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+//				testTreapStructure(it1);
+//				testHeight(it1);
+//				checkImax(it1);
+//				System.out.println("Size: " + it1.getSize());
+////				printNodeAndChildren(it1.root, 0);
+//			}
+//			try {
+				intervs = it1.overlappingIntervals(i);
 				assertNotNull(intervs);
-				System.out.print("i = ");
-				this.printInterval(i);
-				for(Interval interv: intervs) {
-					this.printInterval(interv);
-				}
-				System.out.println();
-			} catch (AssertionError error) {
-				System.out.println("Failed overlap test");
-				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
-				testTreapStructure(it1);
-				testHeight(it1);
-				checkImax(it1);
-				System.out.println("Size: " + it1.getSize());
-//					printNodeAndChildren(it1.root, 0);
-			}
+//				for(Interval interv: intervs) {
+//					this.printInterval(interv);
+//				}
+//				System.out.print("i = ");
+//				this.printInterval(i);
+//				System.out.println();
+//			} catch (AssertionError error) {
+//				System.out.println("Failed overlap test");
+//				System.out.println("The interval that failed: (" + i.getLow() + " - " + i.getHigh() + ")");
+//				for(Interval interv: intervs) {
+//					this.printInterval(interv);
+//				}
+//				testTreapStructure(it1);
+//				testHeight(it1);
+//				checkImax(it1);
+//				System.out.println("Size: " + it1.getSize());
+////					printNodeAndChildren(it1.root, 0);
+//			}
 		}
 		for (Interval j : TN) {
 			assertNull(it1.intervalSearch(j));

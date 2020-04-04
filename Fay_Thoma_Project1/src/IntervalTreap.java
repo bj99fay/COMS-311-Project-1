@@ -49,6 +49,7 @@ public class IntervalTreap {
 		while (x != null) {
 			y = x;
 			y.setImax(Math.max(y.getIMax(), z.getInterv().getHigh()));
+
 			/*
 			 * if (z.getInterv().getLow() == x.getInterv().getLow()) { if
 			 * (z.getInterv().getHigh() < x.getInterv().getHigh()) { x = x.getLeft(); } else
@@ -363,7 +364,7 @@ public class IntervalTreap {
 	public Node intervalSearchExactly(Interval i) {
 		// IntervalSearch from CLRS
 		Node x = root;
-		while (x != null && !intervalOverlap(i, x.getInterv())) {
+		while (x != null && !intervalExactOverlap(i, x.getInterv())) {
 			if (x.getLeft() != null && x.getLeft().getIMax() >= i.getHigh()) {
 				x = x.getLeft();
 			} else {
@@ -411,13 +412,13 @@ public class IntervalTreap {
 	}
 
 	private void recursiveOverlap(Interval i, Node n, List<Interval> intervList) {
-		if (n != null)
-			return;
-		if (this.intervalOverlap(i, n.getInterv())) {
-			intervList.add(n.getInterv());
+		if (n != null) {
+			if (this.intervalOverlap(i, n.getInterv())) {
+				intervList.add(n.getInterv());
+			}
+			this.recursiveOverlap(i, n.getLeft(), intervList);
+			this.recursiveOverlap(i, n.getRight(), intervList);
 		}
-		this.recursiveOverlap(i, n.getLeft(), intervList);
-		this.recursiveOverlap(i, n.getRight(), intervList);
 	}
 
 }
