@@ -1,7 +1,7 @@
 import java.util.Random;
 
 public class Node {
-	private int priority, imax, height;
+	private int priority, imin, imax, height;
 	private Node parent, left, right;
 	private Interval interv;
 
@@ -82,8 +82,23 @@ public class Node {
 	 * @param imax 
 	 * 		the imax to set
 	 */
-	public void setImax(int imax) {
+	public void setIMax(int imax) {
 		this.imax = imax;
+	}
+	
+	/**
+	 * @return the imin of the node
+	 */
+	public int getIMin() {
+		return imin;
+	}
+	
+	/**
+	 * @param imax 
+	 * 		the imin to set
+	 */
+	public void setIMin(int imin) {
+		this.imin = imin;
 	}
 
 	/**

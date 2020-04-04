@@ -41,14 +41,14 @@ public class IntervalTreap {
 			return;
 
 		// set the IMax intially to the node's high value
-		z.setImax(z.getInterv().getHigh());
+		z.setIMax(z.getInterv().getHigh());
 
 		// go down the tree based the z's value until we reach a leaf
 		Node y = null;
 		Node x = root;
 		while (x != null) {
 			y = x;
-			y.setImax(Math.max(y.getIMax(), z.getInterv().getHigh()));
+			y.setIMax(Math.max(y.getIMax(), z.getInterv().getHigh()));
 
 			/*
 			 * if (z.getInterv().getLow() == x.getInterv().getLow()) { if
@@ -305,16 +305,16 @@ public class IntervalTreap {
 		if (x == null)
 			return;
 		else if (x.getLeft() == null && x.getRight() == null) {
-			x.setImax(x.getInterv().getHigh());
+			x.setIMax(x.getInterv().getHigh());
 			x.setHeight(0);
 		} else if (x.getRight() == null) {
-			x.setImax(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()));
+			x.setIMax(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()));
 			x.setHeight(x.getLeft().getHeight() + 1);
 		} else if (x.getLeft() == null) {
-			x.setImax(Math.max(x.getInterv().getHigh(), x.getRight().getIMax()));
+			x.setIMax(Math.max(x.getInterv().getHigh(), x.getRight().getIMax()));
 			x.setHeight(x.getRight().getHeight() + 1);
 		} else {
-			x.setImax(Math.max(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getRight().getIMax()));
+			x.setIMax(Math.max(Math.max(x.getInterv().getHigh(), x.getLeft().getIMax()), x.getRight().getIMax()));
 			x.setHeight(Math.max(x.getLeft().getHeight(), x.getRight().getHeight()) + 1);
 		}
 	}
