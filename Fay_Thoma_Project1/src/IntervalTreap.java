@@ -57,11 +57,7 @@ public class IntervalTreap {
 			y.setIMax(Math.max(y.getIMax(), z.getInterv().getHigh()));
 			y.setIMin(Math.min(y.getIMin(), z.getInterv().getLow()));
 
-			/*
-			 * if (z.getInterv().getLow() == x.getInterv().getLow()) { if
-			 * (z.getInterv().getHigh() < x.getInterv().getHigh()) { x = x.getLeft(); } else
-			 * { x = x.getRight(); } } else
-			 */ if (z.getInterv().getLow() < x.getInterv().getLow()) {
+			if (z.getInterv().getLow() < x.getInterv().getLow()) {
 				x = x.getLeft();
 			} else {
 				x = x.getRight();
@@ -398,9 +394,6 @@ public class IntervalTreap {
 		// check if they overlap exactly
 		if (i.getLow() == x.getLow() && i.getHigh() == x.getHigh()) {
 			overlap = true;
-//		} else {
-//			System.out.println("Lows: i = " + i.getLow() + "; x = " + x.getLow());
-//			System.out.println("Highs: i = " + i.getHigh() + "; x = " + x.getHigh());
 		}
 		return overlap;
 	}
@@ -410,55 +403,28 @@ public class IntervalTreap {
 	 * 
 	 * @param i the interval to find overlaps of
 	 */
-	public List<Node> overlappingIntervals(Interval i) {
-		List<Node> nodeList = new LinkedList<Node>();
-		this.recursiveOverlap(i, this.root, nodeList);
+	public List<Interval> overlappingIntervals(Interval i) {
+		List<Interval> intervList = new LinkedList<Interval>();
+		this.recursiveOverlap(i, this.root, intervList);
 
-		if (nodeList.isEmpty()) {
+		if (intervList.isEmpty()) {
 			return null;
 		}
 
-		return nodeList;
+		return intervList;
 	}
 
-	private void recursiveOverlap(Interval i, Node n, List<Node> nodeList) {
+	private void recursiveOverlap(Interval i, Node n, List<Interval> intervList) {
 		if (n != null) {
 			if (this.intervalOverlap(i, n.getInterv())) {
-				nodeList.add(n);
+				intervList.add(n.getInterv());
 			}
 			if (n.getLeft() != null && n.getLeft().getIMax() >= i.getLow()) {
-				this.recursiveOverlap(i, n.getLeft(), nodeList);
+					this.recursiveOverlap(i, n.getLeft(), intervList);
 			}
 			if (n.getRight() != null && n.getRight().getIMin() <= i.getHigh()) {
-				this.recursiveOverlap(i, n.getRight(), nodeList);
+				this.recursiveOverlap(i, n.getRight(), intervList);
 			}
 		}
 	}
-
 }
-
-
-/*public List<Interval> overlappingIntervals(Interval i) {
-	List<Interval> intervList = new LinkedList<Interval>();
-	this.recursiveOverlap(i, this.root, intervList);
-
-	if (intervList.isEmpty()) {
-		return null;
-	}
-
-	return intervList;
-}
-
-private void recursiveOverlap(Interval i, Node n, List<Interval> intervList) {
-	if (n != null) {
-		if (this.intervalOverlap(i, n.getInterv())) {
-			intervList.add(n.getInterv());
-		}
-		if (n.getLeft() != null && n.getLeft().getIMax() >= i.getLow()) {
-				this.recursiveOverlap(i, n.getLeft(), nodeList);
-		}
-		if (n.getRight() != null && n.getRight().getIMin() <= i.getHigh()) {
-			this.recursiveOverlap(i, n.getRight(), nodeList);
-		}
-	}
-}*/
